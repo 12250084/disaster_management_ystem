@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.project2.ReportDisasterController"
+            prefHeight="695.0" prefWidth="829.0">
+
+    <!-- Header Pane -->
+    <Pane prefHeight="197.0" prefWidth="829.0" style="-fx-background-color: #2D75E8;">
+        <children>
+            <Label layoutX="20.0" layoutY="60.0" text="Report Disaster" textFill="#FFFFFF" style="-fx-font-size: 24px;"/>
+        </children>
+    </Pane>
+
+    <!-- Form Area -->
+    <AnchorPane layoutX="34.0" layoutY="247.0" prefHeight="417.0" prefWidth="753.0">
+        <children>
+            <!-- Disaster Type ComboBox -->
+            <Label layoutX="20.0" layoutY="20.0" text="Disaster Type:"/>
+            <ComboBox fx:id="disasterTypeComboBox" layoutX="150.0" layoutY="15.0" prefWidth="200.0"/>
+
+            <!-- Location ComboBox -->
+            <Label layoutX="20.0" layoutY="60.0" text="Location:"/>
+            <ComboBox fx:id="locationComboBox" layoutX="150.0" layoutY="55.0" prefWidth="200.0"/>
+
+            <!-- Custom Location Field -->
+            <Label layoutX="20.0" layoutY="100.0" text="Custom Location:"/>
+            <TextField fx:id="locationTextField" layoutX="150.0" layoutY="95.0" prefWidth="200.0"/>
+
+            <!-- Description TextArea -->
+            <Label layoutX="20.0" layoutY="140.0" text="Description:"/>
+            <TextArea fx:id="descriptionTextArea" layoutX="150.0" layoutY="135.0" prefWidth="500.0" prefHeight="150.0"/>
+
+            <!-- Submit Button -->
+            <Button fx:id="submitButton" layoutX="150.0" layoutY="300.0" onAction="#handleSubmit" text="Submit" prefWidth="100.0"/>
+
+            <!-- Get Current Location Button -->
+            <Button fx:id="currentLocationButton" layoutX="270.0" layoutY="300.0" onAction="#handleCurrentLocation" text="Get Current Location" prefWidth="200.0"/>
+        </children>
+    </AnchorPane>
+
+</AnchorPane>

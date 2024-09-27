@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="695.0" prefWidth="829.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.AssessDisasterViewController">
+
+    <!-- Header Pane -->
+    <Pane prefHeight="80.0" prefWidth="829.0" style="-fx-background-color: #2D75E8;">
+        <children>
+            <Label layoutX="20.0" layoutY="20.0" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Assess Disaster" textFill="#FFFFFF" />
+        </children>
+    </Pane>
+
+    <!-- Centered Content Area for Disaster Records Table -->
+    <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+
+        <!-- Title Label -->
+        <Label alignment="CENTER" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Assess Disaster" />
+
+        <!-- TableView for displaying disaster records -->
+        <TableView fx:id="disasterTableView" editable="true" prefHeight="500.0" prefWidth="789.0">
+            <columns>
+
+                <!-- Columns for the TableView -->
+                <TableColumn fx:id="disasterNoColumn" prefWidth="200.0" text="Disaster no." />
+                <TableColumn fx:id="disasterTypeColumn" prefWidth="200.0" text="Disaster Type" />
+                <TableColumn fx:id="locationColumn" prefWidth="200.0" text="Location" />
+                <TableColumn fx:id="DepartmentColumn" prefWidth="189.0" text="Department" />
+
+            </columns>
+        </TableView>
+
+    </VBox>
+
+</AnchorPane>
