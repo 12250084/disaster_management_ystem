@@ -2,12 +2,14 @@ package com.example.project2;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -18,6 +20,7 @@ import java.util.Objects;
 
 public class RegisterController {
 
+    public Label lblRegister;
     @FXML
     private TextField firstNameTextField;
 
@@ -44,6 +47,25 @@ public class RegisterController {
 
     @FXML
     private Label registrationMessageLabel;
+
+    @FXML
+    private AnchorPane headerPane; // FXML ID for the top blue AnchorPane
+    private double xOffset = 0;
+    private double yOffset = 0;
+
+    public void initialize() {
+        // Track mouse events for moving the window using the top pane
+        headerPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        headerPane.setOnMouseDragged(event -> {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
+    }
 
 
     public void registerUser() {
@@ -94,15 +116,13 @@ public class RegisterController {
     public void onloginButtonClick() {
 
         try {
-            // Load the Report Disaster FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
-            Parent reportDisasterRoot = loader.load();
-
-            // Create a new stage for the Report Disaster view
-            Stage reportDisasterStage = new Stage();
-            reportDisasterStage.setTitle("Report Disaster");
-            reportDisasterStage.setScene(new Scene(reportDisasterRoot));
-            reportDisasterStage.show();
+            Parent loginRoot = loader.load();
+            Stage loginStage = new Stage();
+            //loginStage.setTitle("Login");
+            loginStage.initStyle(StageStyle.UNDECORATED);
+            loginStage.setScene(new Scene(loginRoot));
+            loginStage.show();
         } catch (Exception e) {
             e.printStackTrace();
             // Handle exceptions if necessary

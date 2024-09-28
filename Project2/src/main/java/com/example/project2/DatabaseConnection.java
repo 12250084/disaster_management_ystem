@@ -1,9 +1,6 @@
 package com.example.project2;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DatabaseConnection {
 
@@ -32,7 +29,7 @@ public class DatabaseConnection {
             databaseLink = DriverManager.getConnection(url, databaseUser, databasePassword);
 
             // Create tables within the schema if they don't exist
-            createTablesIfNotExist(databaseLink);
+           createTablesIfNotExist(databaseLink);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,24 +57,28 @@ public class DatabaseConnection {
         // Execute the creation of the 'user' table
         statement.executeUpdate(createUserTable);
 
-        // Lock the table for writing, disable keys, insert values, and enable keys
-        String lockTableQuery = "LOCK TABLES `user` WRITE;";
-        String disableKeysQuery = "/*!40000 ALTER TABLE `user` DISABLE KEYS */;";
-        String insertDataQuery = "INSERT INTO `user` VALUES "
-                + "(0000000001,'admin','admin123',NULL,NULL,NULL),"
-                + "(0000000002,'fasfasff','123','adfadf','fasfasf','fasfas'),"
-                + "(0000000003,'fasfasf','12345','fadfasf','fasfasff','fasfasf');";
-        String enableKeysQuery = "/*!40000 ALTER TABLE `user` ENABLE KEYS */;";
-        String unlockTableQuery = "UNLOCK TABLES;";
+        // Check if the 'user' table is empty
+        String checkIfEmpty = "SELECT COUNT(*) AS rowcount FROM `user`;";
+        try (Statement checkStatement = connection.createStatement();
+             ResultSet resultSet = checkStatement.executeQuery(checkIfEmpty)) {
 
-        // Execute lock, disable keys, insert data, enable keys, and unlock queries
-        statement.executeUpdate(lockTableQuery);
-        statement.executeUpdate(disableKeysQuery);
-        statement.executeUpdate(insertDataQuery);
-        statement.executeUpdate(enableKeysQuery);
-        statement.executeUpdate(unlockTableQuery);
+            resultSet.next();
+            int count = resultSet.getInt("rowcount");
+
+            // If the table is empty, insert the initial data
+            if (count == 0) {
+                String insertDataQuery = "INSERT INTO `user` (userId, userName, password, firstName, lastName, email) VALUES "
+                        + "(0000000001,'admin','admin123',NULL,NULL,NULL),"
+                        + "(0000000002,'fasfasff','123','adfadf','fasfasf','fasfas'),"
+                        + "(0000000003,'fasfasf','12345','fadfasf','fasfasff','fasfasf');";
+
+                // Insert the data if the table is empty
+                statement.executeUpdate(insertDataQuery);
+            }
+        }
 
         statement.close();
     }
+
 
 }

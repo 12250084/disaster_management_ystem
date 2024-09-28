@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +13,8 @@ import java.sql.SQLException;
 
 public class ReportDisasterController {
 
+    public Button currentLocationButton;
+    public Button CloseButton;
     @FXML
     ComboBox<String> disasterTypeComboBox;
     @FXML
@@ -43,7 +46,11 @@ public class ReportDisasterController {
             currentLocationLink.setOnAction(this::handleCurrentLocation);
         }
     }
-
+    @FXML
+    private void closeWindow() {
+        Stage stage = (Stage) CloseButton.getScene().getWindow();
+        stage.close();
+    }
     @FXML
 
     private void handleSubmit(ActionEvent event) {
@@ -89,7 +96,7 @@ public class ReportDisasterController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(AlertType.ERROR, "Database Error", "Failed to submit disaster report.");
+            showAlert(AlertType.ERROR, "Database Error", "Failed to submit disaster report."+e.getMessage());
         }
     }
 
@@ -142,11 +149,18 @@ public class ReportDisasterController {
     }
 
     void loadDisasterTypes() {
-        // Clear existing items
+        // Clear existing items in the ComboBox
         disasterTypeComboBox.getItems().clear();
 
         // Fetch disaster types from the database and populate the disasterTypeComboBox
         try (Connection conn = dbConnection.getConnection()) {
+            // Lock the table
+            String lockSql = "LOCK TABLES disaster_types READ";
+            try (PreparedStatement lockStmt = conn.prepareStatement(lockSql)) {
+                lockStmt.execute();
+            }
+
+            // Fetch disaster types
             String sql = "SELECT type_name FROM disaster_types"; // Adjust the column name if necessary
             try (PreparedStatement pstmt = conn.prepareStatement(sql);
                  ResultSet resultSet = pstmt.executeQuery()) {
@@ -156,16 +170,31 @@ public class ReportDisasterController {
                     disasterTypeComboBox.getItems().add(disasterType);
                 }
             }
+
+            // Unlock the table after the query
+            String unlockSql = "UNLOCK TABLES";
+            try (PreparedStatement unlockStmt = conn.prepareStatement(unlockSql)) {
+                unlockStmt.execute();
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(AlertType.ERROR, "Database Error", "Failed to load disaster types.");
+            showAlert(AlertType.ERROR, "Database Error", "Failed to load disaster types. " + e.getMessage());
         }
     }
+
+
 
 
     void loadLocations() {
         // Load locations from the database and populate the locationComboBox
         try (Connection conn = dbConnection.getConnection()) {
+            // Lock the table before performing operations if locking is necessary
+            String lockSql = "LOCK TABLES locations READ";
+            try (PreparedStatement lockStmt = conn.prepareStatement(lockSql)) {
+                lockStmt.execute(); // Lock the table
+            }
+
             String sql = "SELECT location_name FROM locations"; // Adjust column names as necessary
             try (PreparedStatement pstmt = conn.prepareStatement(sql);
                  ResultSet resultSet = pstmt.executeQuery()) {
@@ -174,11 +203,19 @@ public class ReportDisasterController {
                     locationComboBox.getItems().add(locationName); // Only show location name
                 }
             }
+
+            // Unlock the table after the query
+            String unlockSql = "UNLOCK TABLES";
+            try (PreparedStatement unlockStmt = conn.prepareStatement(unlockSql)) {
+                unlockStmt.execute(); // Unlock the table
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(AlertType.ERROR, "Database Error", "Failed to load locations.");
+            showAlert(AlertType.ERROR, "Database Error", "Failed to load locations. " + e.getMessage());
         }
     }
+
 
 
     private void showAlert(AlertType alertType, String title, String content) {

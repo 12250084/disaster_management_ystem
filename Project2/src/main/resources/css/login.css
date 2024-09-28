@@ -1,0 +1,90 @@
+/* Styling for the top header background */
+.anchor-pane-top {
+    -fx-background-color: #2D75E8;
+}
+
+/* Styling for the "Log In" text */
+/* Updated styling for the "Log In" text */
+#lblLogin ,#lblRegister{
+    -fx-font-family: 'Arial Rounded MT Bold';
+    -fx-font-size: 58px;
+    -fx-text-fill: white; /* Changing color to white */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 0); /* Adding a more prominent shadow */
+    -fx-padding: 20px;
+    -fx-alignment: center; /* Ensuring the text is centered */
+    -fx-opacity: 0.9; /* Slightly reducing opacity for a softer look */
+}
+
+/* Styling for the login image */
+.image-view-login {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0.5, 0, 0);
+    -fx-padding: 10px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10px;
+}
+
+/* Centering the login text with respect to the image */
+.anchor-pane-left {
+    -fx-alignment: center;
+}
+
+/* Styling for the "Remember Me" checkbox */
+.check-box {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+/* Styling for buttons */
+.button {
+    -fx-background-color: #1E90FF; /* Blue color */
+    -fx-text-fill: white; /* White text */
+    -fx-background-radius: 20; /* Rounded corners */
+    -fx-padding: 10 20; /* Padding for better size */
+    -fx-font-size: 16px; /* Increase font size */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.3, 0, 2);
+}
+
+/* Specific styles for individual buttons */
+#loginButton {
+    -fx-background-color: #00a3ff;
+}
+
+#cancelButton {
+    -fx-background-color: #ff5e5e;
+}
+
+#registerButton {
+    -fx-background-color: #0095ff;
+}
+
+/* Hover effects for buttons */
+.button:hover {
+    -fx-background-color: #007bb5;
+}
+
+#cancelButton:hover {
+    -fx-background-color: #ff4040;
+}
+
+#registerButton:hover {
+    -fx-background-color: #0073b5;
+}
+
+.hover-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-background-radius: 10px;
+    -fx-transition: all 0.3s ease; /* Smooth transition for hover */
+}
+
+.hover-button:hover {
+    -fx-background-color: rgba(255, 173, 173, 0.3); /* Lighter semi-transparent background */
+    -fx-border-color: #ffa8a8; /* Lighter red border */
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 173, 173, 0.5), 10, 0.5, 0, 0); /* Add lighter shadow effect */
+    -fx-scale-x: 1.1; /* Slight scaling effect */
+    -fx-scale-y: 1.1; /* Slight scaling effect */
+    -fx-cursor: hand;
+}
+

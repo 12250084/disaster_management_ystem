@@ -3,11 +3,13 @@ package com.example.project2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -19,6 +21,7 @@ import java.util.Objects;
 
 public class LoginController {
 
+    public Button registerButton;
     @FXML
     private Button cancelButton;
     @FXML
@@ -32,6 +35,24 @@ public class LoginController {
     private TextField passwordTextField;
     @FXML
     private Label loginMessageLabel;
+    @FXML
+    private AnchorPane headerPane; // FXML ID for the top blue AnchorPane
+    private double xOffset = 0;
+    private double yOffset = 0;
+
+    public void initialize() {
+        // Track mouse events for moving the window using the top pane
+        headerPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        headerPane.setOnMouseDragged(event -> {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
+    }
 
 
     public  void setCancelButton (){
@@ -41,7 +62,7 @@ public class LoginController {
     }
 
     public  void OnCancelButton (){
-        dashboard();
+        //dashboard();
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
 
@@ -106,11 +127,13 @@ public class LoginController {
     public void registerForm(){
 
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("register.fxml")));
-            Stage stage = new Stage();
-            stage.initStyle(StageStyle.DECORATED);
-            stage.setScene(new Scene(root,829,695));
-            stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("register.fxml"));
+            Parent loginRoot = loader.load();
+            Stage loginStage = new Stage();
+            //loginStage.setTitle("Login");
+            loginStage.initStyle(StageStyle.UNDECORATED);
+            loginStage.setScene(new Scene(loginRoot));
+            loginStage.show();
             setCancelButton();
 
 
@@ -126,7 +149,7 @@ public class LoginController {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
             Stage stage = new Stage();
-            stage.initStyle(StageStyle.DECORATED);
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root,829,695));
             stage.show();
             setCancelButton();
