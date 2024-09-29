@@ -13,7 +13,7 @@
 <AnchorPane prefHeight="695.0" prefWidth="681.0" stylesheets="@../../../css/report-disaster.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.ReportDisasterController">
 
     <!-- Header Pane -->
-    <Pane prefHeight="197.0" prefWidth="702.0" style="-fx-background-color: #2D75E8;">
+    <Pane prefHeight="197.0" prefWidth="702.0" style="-fx-background-color: #2D75E8;" fx:id="headerPane">
         <Label layoutX="265.0" layoutY="76.0" style="-fx-font-size: 40px; -fx-text-fill: white;" styleClass="image-view-login" text="Report Disaster" textFill="white" />
       <ImageView fitHeight="176.0" fitWidth="328.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
          <image>

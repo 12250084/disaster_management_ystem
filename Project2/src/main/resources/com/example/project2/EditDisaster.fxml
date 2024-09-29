@@ -4,50 +4,70 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="695.0" prefWidth="829.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.EditDisasterController">
+<AnchorPane fx:id="headerPane"  prefHeight="753.0" prefWidth="829.0" stylesheets="@../../../css/edit-disaster.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.EditDisasterController">
 
     <!-- Header Pane -->
-    <Pane prefHeight="80.0" prefWidth="829.0" style="-fx-background-color: #2D75E8;">
+    <Pane prefHeight="163.0" prefWidth="829.0" style="-fx-background-color: #2D75E8;">
         <children>
-            <Label layoutX="20.0" layoutY="20.0" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Edit Assess Disaster" textFill="#FFFFFF" />
+            <Label layoutX="247.0" layoutY="58.0" styleClass="title-view" stylesheets="@../../../css/edit-disaster.css" text="Edit Assess Disaster" textFill="#FFFFFF" />
+         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="27.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../icons/edit.png" />
+            </image>
+         </ImageView>
+            <Button fx:id="CloseButton" layoutX="755.0" layoutY="111.0" mnemonicParsing="false" onAction="#closeWindow">
+                <style>
+                    -fx-background-color: transparent;
+                    -fx-border-color: transparent;
+                    -fx-padding: 0;
+                </style>
+                <styleClass>hover-button</styleClass>
+            </Button>
+            <ImageView fitHeight="39.0" fitWidth="38.0" layoutX="777.0" layoutY="25.0" onMouseClicked="#closeWindow">
+                <image>
+                    <Image url="@../../../icons/close.png" />
+                </image>
+            </ImageView>
         </children>
     </Pane>
 
     <!-- Form Area -->
-    <AnchorPane layoutX="20.0" layoutY="100.0" prefHeight="580.0" prefWidth="789.0">
+    <AnchorPane layoutX="20.0" layoutY="155.0" prefHeight="525.0" prefWidth="789.0">
         <children>
             <!-- Disaster No -->
-            <Label layoutX="20.0" layoutY="20.0" text="Disaster No:" />
-            <Label fx:id="disasterNo" layoutX="150.0" layoutY="15.0" prefWidth="100.0" />
+            <Label layoutX="15.0" layoutY="81.0" text="Disaster No:" />
+            <Label fx:id="disasterNo" layoutX="145.0" layoutY="76.0" prefWidth="100.0" />
 
             <!-- Disaster Type -->
-            <Label layoutX="20.0" layoutY="60.0" text="Disaster Type:" />
-            <ComboBox fx:id="disasterTypeComboBox" layoutX="150.0" layoutY="55.0" prefWidth="500.0" />
+            <Label layoutX="15.0" layoutY="121.0" text="Disaster Type:" />
+            <ComboBox fx:id="disasterTypeComboBox" layoutX="145.0" layoutY="116.0" prefWidth="500.0" />
 
             <!-- Location -->
-            <Label layoutX="20.0" layoutY="100.0" text="Location:" />
-            <ComboBox fx:id="locationComboBox" layoutX="150.0" layoutY="95.0" prefWidth="500.0" promptText="-" />
+            <Label layoutX="15.0" layoutY="161.0" text="Location:" />
+            <ComboBox fx:id="locationComboBox" layoutX="145.0" layoutY="156.0" prefWidth="500.0" promptText="-" />
 
             <!-- Description -->
-            <Label layoutX="20.0" layoutY="140.0" text="Description:" />
-            <TextArea fx:id="descriptionTextArea" layoutX="150.0" layoutY="135.0" prefHeight="200.0" prefWidth="630.0" promptText="-" />
+            <Label layoutX="15.0" layoutY="201.0" text="Description:" />
+            <TextArea fx:id="descriptionTextArea" layoutX="145.0" layoutY="196.0" prefHeight="200.0" prefWidth="630.0" promptText="-" />
 
             <!-- Priority and Department on the Same Line -->
             <!-- Priority -->
-            <Label layoutX="20.0" layoutY="360.0" text="Priority:" />
-            <ComboBox fx:id="priorityComboBox" layoutX="150.0" layoutY="355.0" prefWidth="100.0" />
+            <Label layoutX="15.0" layoutY="421.0" text="Priority:" />
+            <ComboBox fx:id="priorityComboBox" layoutX="145.0" layoutY="416.0" prefWidth="100.0" />
 
             <!-- Department -->
-            <Label layoutX="270.0" layoutY="360.0" text="Department:" />
-            <ComboBox fx:id="departmentComboBox" layoutX="360.0" layoutY="355.0" prefWidth="200.0" />
+            <Label layoutX="265.0" layoutY="421.0" text="Department:" />
+            <ComboBox fx:id="departmentComboBox" layoutX="355.0" layoutY="416.0" prefWidth="200.0" />
 
             <!-- Save Button on the Next Line -->
-            <Button fx:id="saveButton" layoutX="150.0" layoutY="416.0" onAction="#handleSave" prefWidth="120.0" text="Update" />
-            <Button fx:id="deleteButton" layoutX="291.0" layoutY="416.0" onAction="#handleDelete" prefWidth="120.0" text="Delete" />
-             <Button fx:id="cancelButton" layoutX="428.0" layoutY="416.0" onAction="#handleCancel" prefWidth="120.0" text="Cancel" />
+            <Button fx:id="saveButton" layoutX="145.0" layoutY="477.0" onAction="#handleSave" prefWidth="120.0" text="Update" />
+            <Button fx:id="deleteButton" layoutX="286.0" layoutY="477.0" onAction="#handleDelete" prefWidth="120.0" text="Delete" />
+             <Button fx:id="cancelButton" layoutX="423.0" layoutY="477.0" onAction="#handleCancel" prefWidth="120.0" text="Cancel" />
         </children>
     </AnchorPane>
 

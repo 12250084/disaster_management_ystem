@@ -98,3 +98,23 @@
     -fx-border-color: transparent;
     -fx-border-radius: 10px;
 }
+
+/* Custom styling for export button */
+#exportButton {
+    -fx-background-color: #28A745; /* Green color */
+    -fx-text-fill: white;
+}
+
+#exportButton:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+/* Custom styling for refresh button */
+#refreshButton {
+    -fx-background-color: #007bb5; /* Blue color */
+    -fx-text-fill: white;
+}
+
+#refreshButton:hover {
+    -fx-background-color: #005f8a; /* Darker blue on hover */
+}

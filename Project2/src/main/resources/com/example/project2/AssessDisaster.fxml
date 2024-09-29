@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="755.0" prefWidth="829.0" stylesheets="@../../../css/assess-disaster.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.AssessDisasterController">
+<AnchorPane fx:id="headerPane" prefHeight="755.0" prefWidth="829.0" stylesheets="@../../../css/assess-disaster.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.AssessDisasterController">
 
     <!-- Header Pane -->
     <Pane prefHeight="189.0" prefWidth="829.0" style="-fx-background-color: #2D75E8;">
@@ -20,6 +20,20 @@
                <Image url="@../../../icons/monitor.png" />
             </image>
          </ImageView>
+            <Button fx:id="CloseButton" layoutX="755.0" layoutY="111.0" mnemonicParsing="false" onAction="#closeWindow">
+                <style>
+                    -fx-background-color: transparent;
+                    -fx-border-color: transparent;
+                    -fx-padding: 0;
+                </style>
+                <styleClass>hover-button</styleClass>
+            </Button>
+            <ImageView fitHeight="39.0" fitWidth="38.0" layoutX="765.0" layoutY="21.0" onMouseClicked="#closeWindow">
+                <image>
+                    <Image url="@../../../icons/close.png" />
+                </image>
+            </ImageView>
+
         </children>
     </Pane>
 

@@ -146,7 +146,8 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ReportDisaster.fxml"));
             Parent reportDisasterRoot = loader.load();
             Stage reportDisasterStage = new Stage();
-            reportDisasterStage.setTitle("Report Disaster");
+            reportDisasterStage.initStyle(StageStyle.UNDECORATED);
+//            reportDisasterStage.setTitle("Report Disaster");
             reportDisasterStage.setScene(new Scene(reportDisasterRoot));
             reportDisasterStage.show();
         } catch (Exception e) {
@@ -160,7 +161,8 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AssessDisaster.fxml"));
             Parent assessDisasterRoot = loader.load();
             Stage assessDisasterStage = new Stage();
-            assessDisasterStage.setTitle("Assess Disaster");
+            //assessDisasterStage.setTitle("Assess Disaster");
+            assessDisasterStage.initStyle(StageStyle.UNDECORATED);
             assessDisasterStage.setScene(new Scene(assessDisasterRoot));
             assessDisasterStage.show();
         } catch (Exception e) {
@@ -174,7 +176,8 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AssessDisasterView.fxml"));
             Parent assessDisasterViewRoot = loader.load();
             Stage assessDisasterViewStage = new Stage();
-            assessDisasterViewStage.setTitle("Assess Disaster View");
+            assessDisasterViewStage.initStyle(StageStyle.UNDECORATED);
+            //assessDisasterViewStage.setTitle("Assess Disaster View");
             assessDisasterViewStage.setScene(new Scene(assessDisasterViewRoot));
             assessDisasterViewStage.show();
         } catch (Exception e) {
@@ -188,9 +191,13 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("about.fxml"));
             Parent aboutRoot = loader.load();
             Stage aboutStage = new Stage();
-            aboutStage.setTitle("About");
+            aboutStage.initStyle(StageStyle.UNDECORATED);
+           // aboutStage.setTitle("About");
             aboutStage.setScene(new Scene(aboutRoot));
             aboutStage.show();
+            Stage stage = (Stage) aboutButton.getScene().getWindow();
+            stage.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

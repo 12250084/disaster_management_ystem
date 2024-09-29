@@ -1,7 +1,9 @@
 package com.example.project2;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -11,6 +13,8 @@ import java.sql.SQLException;
 
 public class EditDisasterController {
 
+    public Button CloseButton;
+    public AnchorPane headerPane;
     @FXML
     private TextField disasterNoField;
 
@@ -41,9 +45,25 @@ public class EditDisasterController {
     private Disaster selectedDisaster;
     private DatabaseConnection dbConnection;
 
+    @FXML
+    private double xOffset = 0;
+    private double yOffset = 0;
+
     // Initialize method to populate ComboBoxes and set initial data
     @FXML
     public void initialize() {
+
+        // Track mouse events for moving the window using the top pane
+        headerPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        headerPane.setOnMouseDragged(event -> {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
         dbConnection = new DatabaseConnection();
         loadDisasterTypes();
         loadLocations();
@@ -162,6 +182,7 @@ public class EditDisasterController {
     }
 
     // Utility method to close the edit window
+    @FXML
     private void closeWindow() {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
@@ -322,4 +343,6 @@ public class EditDisasterController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    
+    
 }

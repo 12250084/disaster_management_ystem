@@ -4,15 +4,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -22,6 +26,11 @@ import java.sql.SQLException;
 
 public class AssessDisasterViewController {
 
+
+    public Button refreshButton;
+    public Button exportButton;
+    public Button CloseButton;
+    public AnchorPane headerPane;
     @FXML
     TableView<DisasterRecord> disasterTableView;
 
@@ -42,7 +51,23 @@ public class AssessDisasterViewController {
     DatabaseConnection dbConnection;
 
     @FXML
+    private double xOffset = 0;
+    private double yOffset = 0;
+
+    @FXML
     public void initialize() {
+        // Track mouse events for moving the window using the top pane
+        headerPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        headerPane.setOnMouseDragged(event -> {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
+        
         dbConnection = new DatabaseConnection();  // Initialize your database connection class
 
         // Set up the table columns
@@ -58,7 +83,7 @@ public class AssessDisasterViewController {
         loadDisasterRecords();
 
         // Add a listener for row selection
-        disasterTableView.setOnMouseClicked(event -> handleRowSelect(event));
+        disasterTableView.setOnMouseClicked(this::handleRowSelect);
     }
     // Method to handle row selection
     private void handleRowSelect(MouseEvent event) {
@@ -87,7 +112,8 @@ public class AssessDisasterViewController {
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Edit Disaster");
+            stage.initStyle(StageStyle.UNDECORATED);
+            //stage.setTitle("Edit Disaster");
             stage.show();
 
             closeCurrentStage();
@@ -154,5 +180,11 @@ public class AssessDisasterViewController {
         alert.setTitle(title);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void closeWindow() {
+        Stage stage = (Stage) CloseButton.getScene().getWindow();
+        stage.close();
     }
 }
