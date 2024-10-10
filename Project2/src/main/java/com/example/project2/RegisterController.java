@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +21,6 @@ import java.util.Objects;
 
 public class RegisterController {
 
-    public Label lblRegister;
     @FXML
     private TextField firstNameTextField;
 
@@ -49,7 +49,8 @@ public class RegisterController {
     private Label registrationMessageLabel;
 
     @FXML
-    private AnchorPane headerPane; // FXML ID for the top blue AnchorPane
+    private AnchorPane headerPane;
+
     private double xOffset = 0;
     private double yOffset = 0;
 
@@ -66,7 +67,6 @@ public class RegisterController {
             stage.setY(event.getScreenY() - yOffset);
         });
     }
-
 
     public void registerUser() {
         String firstName = firstNameTextField.getText();
@@ -87,10 +87,11 @@ public class RegisterController {
             return;
         }
 
-        // Additional validation logic (e.g., email format, password strength) can be added here
+        // Hash the password using BCrypt
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        // Call method to save registration data to database
-        if (saveRegistrationData(username,password, firstName, lastName,email)) {
+        // Call method to save registration data to the database
+        if (saveRegistrationData(username, hashedPassword, firstName, lastName, email)) {
             registrationMessageLabel.setText("Registration successful!");
             dashboard();
         } else {
@@ -98,45 +99,7 @@ public class RegisterController {
         }
     }
 
-    private void dashboard() {
-        try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
-            Stage stage = new Stage();
-            stage.initStyle(StageStyle.DECORATED);
-            stage.setScene(new Scene(root,829,695));
-            stage.show();
-            setCancelButton();
-
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    @FXML
-    public void onloginButtonClick() {
-
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
-            Parent loginRoot = loader.load();
-            Stage loginStage = new Stage();
-            //loginStage.setTitle("Login");
-            loginStage.initStyle(StageStyle.UNDECORATED);
-            loginStage.setScene(new Scene(loginRoot));
-            loginStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Handle exceptions if necessary
-        }
-    }
-    public void setCancelButton() {
-
-        onloginButtonClick();
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
-
-    }
-
-    private boolean saveRegistrationData(String username, String password, String firstName, String lastName, String email) {
+    private boolean saveRegistrationData(String username, String hashedPassword, String firstName, String lastName, String email) {
         DatabaseConnection connectionNow = new DatabaseConnection();
         Connection connection = connectionNow.getConnection();
 
@@ -144,10 +107,10 @@ public class RegisterController {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
             preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
+            preparedStatement.setString(2, hashedPassword);  // Store hashed password
             preparedStatement.setString(3, firstName);
             preparedStatement.setString(4, lastName);
-            preparedStatement.setString(5, email); // Note: Passwords should be hashed
+            preparedStatement.setString(5, email);
 
             preparedStatement.executeUpdate();
             return true; // Registration successful
@@ -158,4 +121,40 @@ public class RegisterController {
         }
     }
 
+    private void dashboard() {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(root, 829, 695));
+            stage.show();
+            //setCancelButton();
+            // Close the current window
+            Stage currentStage = (Stage) registerButton.getScene().getWindow(); // Assuming registerButton was used in the current window
+            currentStage.close();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    public void onloginButtonClick() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Parent loginRoot = loader.load();
+            Stage loginStage = new Stage();
+            loginStage.initStyle(StageStyle.UNDECORATED);
+            loginStage.setScene(new Scene(loginRoot));
+            loginStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setCancelButton() {
+        onloginButtonClick();
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+    }
 }

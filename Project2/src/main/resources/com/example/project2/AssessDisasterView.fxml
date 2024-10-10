@@ -15,14 +15,13 @@
     <!-- Header Pane -->
     <Pane prefHeight="165.0" prefWidth="829.0" style="-fx-background-color: #2D75E8;">
         <children>
-   
-           <!-- Title Label -->
-           <Label alignment="CENTER" layoutX="235.0" layoutY="57.0" style="-fx-font-size: 40px; -fx-text-fill: white;" styleClass="image-view-login" text="View Disaster Records" />
-         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@../../../icons/view2.png" />
-            </image>
-         </ImageView>
+            <!-- Title Label -->
+            <Label alignment="CENTER" layoutX="235.0" layoutY="57.0" style="-fx-font-size: 40px; -fx-text-fill: white;" styleClass="image-view-login" text="View Disaster Records" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../../../icons/view2.png" />
+                </image>
+            </ImageView>
             <Button fx:id="CloseButton" layoutX="755.0" layoutY="111.0" mnemonicParsing="false" onAction="#closeWindow">
                 <style>
                     -fx-background-color: transparent;
@@ -46,20 +45,21 @@
         <TableView fx:id="disasterTableView" editable="true" prefHeight="463.0" prefWidth="785.0">
             <columns>
                 <!-- Columns for the TableView -->
-                <TableColumn fx:id="disasterNoColumn" prefWidth="150.0" text="Disaster no." />
+                <TableColumn fx:id="disasterNoColumn" prefWidth="100.0" text="Disaster no." />
                 <TableColumn fx:id="disasterTypeColumn" prefWidth="180.0" text="Disaster Type" />
                 <TableColumn fx:id="locationColumn" prefWidth="200.0" text="Location" />
                 <TableColumn fx:id="DepartmentColumn" prefWidth="200.0" text="Department" />
+
+                <!-- New Priority Column -->
+                <TableColumn fx:id="priorityColumn" prefWidth="120.0" text="Priority" />
             </columns>
         </TableView>
 
         <!-- Add action buttons below the table -->
         <VBox alignment="CENTER" prefHeight="108.0" prefWidth="789.0" spacing="10.0" style="-fx-padding: 20px 0;">
-            <Button fx:id="refreshButton" text="Refresh" />
-            <Button fx:id="exportButton" text="Export to CSV" />
-
+            <Button fx:id="refreshButton" text="Refresh"  onAction="#loadDisasterRecords"/>
+            <Button fx:id="exportButton" text="Export to CSV" onAction="#exportToCSV"/>
         </VBox>
-
     </VBox>
 
 </AnchorPane>

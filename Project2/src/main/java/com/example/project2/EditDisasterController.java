@@ -1,5 +1,6 @@
 package com.example.project2;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -15,6 +16,8 @@ public class EditDisasterController {
 
     public Button CloseButton;
     public AnchorPane headerPane;
+
+
     @FXML
     private TextField disasterNoField;
 
@@ -52,7 +55,6 @@ public class EditDisasterController {
     // Initialize method to populate ComboBoxes and set initial data
     @FXML
     public void initialize() {
-
         // Track mouse events for moving the window using the top pane
         headerPane.setOnMousePressed(event -> {
             xOffset = event.getSceneX();
@@ -64,46 +66,56 @@ public class EditDisasterController {
             stage.setX(event.getScreenX() - xOffset);
             stage.setY(event.getScreenY() - yOffset);
         });
-        dbConnection = new DatabaseConnection();
-        loadDisasterTypes();
-        loadLocations();
-        loadPriorities();
-        loadDepartments();
-        //populateFields();
 
-        if (selectedDisaster != null) {
-            populateFields();
-        }
+        dbConnection = new DatabaseConnection();
     }
 
     // Method to set the selected disaster data into the fields
     public void setDisaster(Disaster disaster) {
         this.selectedDisaster = disaster;
-        //populateFields();
+
+        // Load all combo box values first
+        loadDisasterTypes();
+        loadLocations();
+        loadPriorities();
+        loadDepartments();
+
+        // Now populate fields
+        populateFields();
     }
-
-
 
     private void populateFields() {
-        disasterNoField.setText(String.valueOf(selectedDisaster.getId()));
-        disasterTypeComboBox.setValue(selectedDisaster.getType());
-        locationComboBox.setValue(selectedDisaster.getLocation());
-        descriptionTextArea.setText(selectedDisaster.getDescription());
-        priorityComboBox.setValue(selectedDisaster.getPriority());
-        departmentComboBox.setValue(selectedDisaster.getDepartment());
+        if (selectedDisaster != null) {
+            disasterNoField.setText(String.valueOf(selectedDisaster.getId()));
+            disasterTypeComboBox.setValue(selectedDisaster.getType());
+            locationComboBox.setValue(selectedDisaster.getLocation());
+            descriptionTextArea.setText(selectedDisaster.getDescription());
 
+            // Get the priority and check if it's null or empty before applying substring
+            String disasterPriority = selectedDisaster.getPriority();
+            if (disasterPriority != null && !disasterPriority.isEmpty()) {
+                disasterPriority = disasterPriority.substring(0, 1).toUpperCase() + disasterPriority.substring(1).toLowerCase();
+                priorityComboBox.setValue(disasterPriority);
+            } else {
+                System.out.println("Disaster priority is null or empty, cannot set in ComboBox.");
+            }
+
+            departmentComboBox.setValue(selectedDisaster.getDepartment());
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Selected disaster record is not available.");
+        }
     }
+
+
 
     // Handle save button action
     @FXML
     private void handleSave() {
-        // Validate inputs
         if (disasterTypeComboBox.getValue() == null || locationComboBox.getValue() == null || priorityComboBox.getValue() == null || departmentComboBox.getValue() == null || descriptionTextArea.getText().isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Validation Error", "Please fill in all required fields.");
             return;
         }
 
-        // Retrieve IDs
         Integer disasterTypeId = getDisasterTypeId(disasterTypeComboBox.getValue());
         Integer locationId = getLocationId(locationComboBox.getValue());
         Integer priorityId = getPriorityId(priorityComboBox.getValue());
@@ -114,7 +126,6 @@ public class EditDisasterController {
             return;
         }
 
-        // Update disaster in the database
         try (Connection conn = dbConnection.getConnection()) {
             String sql = "UPDATE disasters SET disaster_type_id = ?, location_id = ?, description = ?, priority_id = ?, department_id = ? WHERE id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -125,16 +136,11 @@ public class EditDisasterController {
                 pstmt.setInt(5, departmentId);
                 pstmt.setInt(6, selectedDisaster.getId());
 
-
-
-
                 int rowsAffected = pstmt.executeUpdate();
                 if (rowsAffected > 0) {
                     showAlert(Alert.AlertType.INFORMATION, "Success", "Disaster record updated successfully.");
                 } else {
                     showAlert(Alert.AlertType.WARNING, "No Change", "No record was updated.");
-
-
                 }
             }
         } catch (SQLException e) {
@@ -144,7 +150,6 @@ public class EditDisasterController {
 
         closeWindow();
     }
-
 
     // Handle delete button action
     @FXML
@@ -173,7 +178,6 @@ public class EditDisasterController {
             closeWindow();
         }
     }
-
 
     // Handle cancel button action
     @FXML
@@ -231,13 +235,21 @@ public class EditDisasterController {
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                priorityComboBox.getItems().add(rs.getString("priority_level"));
+                String priorityLevel = rs.getString("priority_level");
+                //System.out.println("Priority Level fetched from DB: " + priorityLevel); // Debugging
+
+                // Populate ComboBox
+                priorityComboBox.getItems().add(priorityLevel);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Database Error", "Failed to load priorities.");
         }
     }
+
+
+
+
 
     private void loadDepartments() {
         departmentComboBox.getItems().clear();
@@ -316,6 +328,7 @@ public class EditDisasterController {
         return priorityId;
     }
 
+
     private Integer getDepartmentId(String departmentName) {
         Integer departmentId = null;
         String query = "SELECT DepartmentID FROM departments WHERE DepartmentName = ?";
@@ -343,6 +356,4 @@ public class EditDisasterController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    
-    
 }

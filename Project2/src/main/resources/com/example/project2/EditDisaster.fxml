@@ -9,7 +9,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane fx:id="headerPane"  prefHeight="753.0" prefWidth="829.0" stylesheets="@../../../css/edit-disaster.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.EditDisasterController">
+<?import javafx.scene.control.TextField?>
+<AnchorPane fx:id="headerPane" prefHeight="753.0" prefWidth="829.0" stylesheets="@../../../css/edit-disaster.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.EditDisasterController">
 
     <!-- Header Pane -->
     <Pane prefHeight="163.0" prefWidth="829.0" style="-fx-background-color: #2D75E8;">
@@ -41,7 +42,7 @@
         <children>
             <!-- Disaster No -->
             <Label layoutX="15.0" layoutY="81.0" text="Disaster No:" />
-            <Label fx:id="disasterNo" layoutX="145.0" layoutY="76.0" prefWidth="100.0" />
+            <TextField fx:id="disasterNoField" layoutX="145.0" layoutY="76.0" prefWidth="100.0" />
 
             <!-- Disaster Type -->
             <Label layoutX="15.0" layoutY="121.0" text="Disaster Type:" />

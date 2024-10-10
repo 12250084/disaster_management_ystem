@@ -18,11 +18,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.io.IOException;
+import javafx.stage.FileChooser;
 
 public class AssessDisasterViewController {
 
@@ -31,6 +33,7 @@ public class AssessDisasterViewController {
     public Button exportButton;
     public Button CloseButton;
     public AnchorPane headerPane;
+    ;
     @FXML
     TableView<DisasterRecord> disasterTableView;
 
@@ -45,6 +48,9 @@ public class AssessDisasterViewController {
 
     @FXML
     TableColumn<DisasterRecord, String> DepartmentColumn;
+    @FXML
+
+    TableColumn<DisasterRecord, String> priorityColumn;
 
     ObservableList<DisasterRecord> disasterRecords;
 
@@ -76,6 +82,8 @@ public class AssessDisasterViewController {
         locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
         DepartmentColumn.setCellValueFactory(new PropertyValueFactory<>("department"));
 
+        priorityColumn.setCellValueFactory(new PropertyValueFactory<>("priority"));
+
         disasterRecords = FXCollections.observableArrayList();
         disasterTableView.setItems(disasterRecords);
 
@@ -84,6 +92,8 @@ public class AssessDisasterViewController {
 
         // Add a listener for row selection
         disasterTableView.setOnMouseClicked(this::handleRowSelect);
+        exportButton.setOnAction(event -> exportToCSV());
+
     }
     // Method to handle row selection
     private void handleRowSelect(MouseEvent event) {
@@ -128,8 +138,8 @@ public class AssessDisasterViewController {
                 record.getDisasterNo(),
                 record.getDisasterType(),
                 record.getLocation(),
-                "",
-                "",
+                record.getDescription(),
+                record.getPriority(),
                 record.getDepartment()
         );
     }
@@ -149,8 +159,16 @@ public class AssessDisasterViewController {
 
 
 
+    @FXML
     void loadDisasterRecords() {
-        String query = "SELECT d.id, dt.type_name, l.location_name,dep.DepartmentName  FROM disasters d JOIN disaster_types dt ON d.disaster_type_id = dt.id JOIN locations l ON d.location_id = l.id JOIN departments dep ON d.department_id =dep.DepartmentID";
+        String query = "SELECT d.id, dt.type_name, l.location_name, dep.DepartmentName, p.priority_level, d.description " +
+                "FROM disasters d " +
+                "JOIN disaster_types dt ON d.disaster_type_id = dt.id " +
+                "JOIN locations l ON d.location_id = l.id " +
+                "JOIN departments dep ON d.department_id = dep.DepartmentID " +
+                "JOIN priorities p ON d.priority_id = p.id";
+
+
 
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query);
@@ -163,9 +181,11 @@ public class AssessDisasterViewController {
                 String disasterType = rs.getString("type_name");
                 String location = rs.getString("location_name");
                 String department = rs.getString("DepartmentName");
+                String priority = rs.getString("priority_level");  // Fetch priority level
+                String description = rs.getString("description");
 
                 // Create a new DisasterRecord and add it to the list
-                DisasterRecord record = new DisasterRecord(disasterNo, disasterType, location, department);
+                DisasterRecord record = new DisasterRecord(disasterNo, disasterType, location, department,priority,description);
                 disasterRecords.add(record);
             }
 
@@ -187,4 +207,41 @@ public class AssessDisasterViewController {
         Stage stage = (Stage) CloseButton.getScene().getWindow();
         stage.close();
     }
+
+
+
+    @FXML
+    private void exportToCSV() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+        // Show save file dialog
+        File file = fileChooser.showSaveDialog(getStage());
+
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                // Write the header line
+                writer.write("Disaster no.,Disaster Type,Location,Department,Priority");
+                writer.newLine();
+
+                // Write each row from the TableView to the CSV
+                for (DisasterRecord record : disasterTableView.getItems()) {
+                    writer.write(record.getDisasterNo() + "," +
+                            record.getDisasterType() + "," +
+                            record.getLocation() + "," +
+                            record.getDepartment() + "," +
+                            record.getPriority());
+                    writer.newLine();
+                }
+
+                showAlert(Alert.AlertType.INFORMATION, "Success", "Data exported successfully to " + file.getAbsolutePath());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to export data.");
+            }
+        }
+    }
+
 }

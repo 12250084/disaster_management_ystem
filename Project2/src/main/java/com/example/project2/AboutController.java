@@ -40,9 +40,7 @@ public class AboutController {
 
     @FXML
     public void handleBackButton(ActionEvent event) throws IOException {
-        // Close the About window
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        stage.close();
+
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
         Parent aboutRoot = loader.load();
@@ -51,5 +49,9 @@ public class AboutController {
         // aboutStage.setTitle("About");
         aboutStage.setScene(new Scene(aboutRoot));
         aboutStage.show();
+
+        // Close the About window
+        Stage stage = (Stage) backButton.getScene().getWindow();
+        stage.close();
     }
 }

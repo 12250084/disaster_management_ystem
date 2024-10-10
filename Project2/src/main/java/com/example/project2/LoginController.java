@@ -18,6 +18,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Objects;
 
+import org.mindrot.jbcrypt.BCrypt;
+
+
 
 public class LoginController {
 
@@ -82,33 +85,37 @@ public class LoginController {
     }
 
     private void validationLogin() {
-
+        // Instantiate DatabaseConnection
         DatabaseConnection connectionNow = new DatabaseConnection();
         Connection connection = connectionNow.getConnection();
 
-        // Corrected SQL query with placeholders
-        String verifyLogin = "SELECT COUNT(1) FROM dbo.user WHERE username = ? AND password = ?";
+        // Retrieve schema name dynamically
+        String schemaName = connectionNow.getSchemaName(); // Get schema name
+
+        // Use the schema name in the SQL query
+        String verifyLogin = "SELECT password FROM `" + schemaName + "`.user WHERE username = ?";
 
         try {
-            // Prepare the SQL statement
+            // Prepare SQL query with the schema and placeholders
             PreparedStatement preparedStatement = connection.prepareStatement(verifyLogin);
-
-            // Set parameters for the placeholders
-            preparedStatement.setString(1, userNameTextField.getText().trim()); // First placeholder
-            preparedStatement.setString(2, passwordTextField.getText().trim()); // Second placeholder
+            preparedStatement.setString(1, userNameTextField.getText().trim());
 
             // Execute the query
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                if (resultSet.getInt(1) == 1) {
-                    loginMessageLabel.setText("Login successful!");
-                    //enableButtonsAfterLogin();
-                    dashboard();
+            if (resultSet.next()) {
+                // Get the stored hashed password from the database
+                String storedHashedPassword = resultSet.getString("password");
 
+                // Use BCrypt to check if the entered password matches the stored hash
+                if (BCrypt.checkpw(passwordTextField.getText().trim(), storedHashedPassword)) {
+                    loginMessageLabel.setText("Login successful!");
+                    dashboard();  // Navigate to the dashboard on successful login
                 } else {
                     loginMessageLabel.setText("Invalid username or password.");
                 }
+            } else {
+                loginMessageLabel.setText("Invalid username or password.");
             }
 
         } catch (Exception e) {

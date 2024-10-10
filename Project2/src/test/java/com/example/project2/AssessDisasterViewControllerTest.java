@@ -76,7 +76,7 @@ public class AssessDisasterViewControllerTest extends ApplicationTest {
 
     @Test
     public void testHandleRowSelectWithDoubleClick() {
-        DisasterRecord mockRecord = new DisasterRecord("001", "Flood", "New York", "Emergency");
+        DisasterRecord mockRecord = new DisasterRecord("001", "Flood", "New York","Emergency","High","test");
         controller.disasterRecords.add(mockRecord);
         controller.disasterTableView.getSelectionModel().select(mockRecord);
 
@@ -91,7 +91,7 @@ public class AssessDisasterViewControllerTest extends ApplicationTest {
 
     @Test
     public void testShowEditWindowWithIOException() throws IOException {
-        DisasterRecord mockRecord = new DisasterRecord("001", "Flood", "New York", "Emergency");
+        DisasterRecord mockRecord = new DisasterRecord("001", "Flood", "New York", "Emergency","High","test2");
         controller.showEditWindow(mockRecord);
 
         // Mock FXMLLoader to throw IOException
