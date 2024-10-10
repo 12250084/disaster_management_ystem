@@ -1,39 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="695.0" prefWidth="829.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.AssessDisasterViewController">
+<AnchorPane fx:id="headerPane" prefHeight="787.0" prefWidth="829.0" stylesheets="@../../../css/assess-disaster.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project2.AssessDisasterViewController">
 
     <!-- Header Pane -->
-    <Pane prefHeight="80.0" prefWidth="829.0" style="-fx-background-color: #2D75E8;">
+    <Pane prefHeight="165.0" prefWidth="829.0" style="-fx-background-color: #2D75E8;">
         <children>
-            <Label layoutX="20.0" layoutY="20.0" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Assess Disaster" textFill="#FFFFFF" />
+   
+           <!-- Title Label -->
+           <Label alignment="CENTER" layoutX="235.0" layoutY="57.0" style="-fx-font-size: 40px; -fx-text-fill: white;" styleClass="image-view-login" text="View Disaster Records" />
+         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../../icons/view2.png" />
+            </image>
+         </ImageView>
+            <Button fx:id="CloseButton" layoutX="755.0" layoutY="111.0" mnemonicParsing="false" onAction="#closeWindow">
+                <style>
+                    -fx-background-color: transparent;
+                    -fx-border-color: transparent;
+                    -fx-padding: 0;
+                </style>
+                <styleClass>hover-button</styleClass>
+            </Button>
+            <ImageView fitHeight="39.0" fitWidth="38.0" layoutX="777.0" layoutY="25.0" onMouseClicked="#closeWindow">
+                <image>
+                    <Image url="@../../../icons/close.png" />
+                </image>
+            </ImageView>
         </children>
     </Pane>
 
     <!-- Centered Content Area for Disaster Records Table -->
-    <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
-
-        <!-- Title Label -->
-        <Label alignment="CENTER" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Assess Disaster" />
+    <VBox alignment="CENTER" layoutY="180.0" prefHeight="651.0" prefWidth="789.0" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="180.0">
 
         <!-- TableView for displaying disaster records -->
-        <TableView fx:id="disasterTableView" editable="true" prefHeight="500.0" prefWidth="789.0">
+        <TableView fx:id="disasterTableView" editable="true" prefHeight="463.0" prefWidth="785.0">
             <columns>
-
                 <!-- Columns for the TableView -->
-                <TableColumn fx:id="disasterNoColumn" prefWidth="200.0" text="Disaster no." />
-                <TableColumn fx:id="disasterTypeColumn" prefWidth="200.0" text="Disaster Type" />
+                <TableColumn fx:id="disasterNoColumn" prefWidth="150.0" text="Disaster no." />
+                <TableColumn fx:id="disasterTypeColumn" prefWidth="180.0" text="Disaster Type" />
                 <TableColumn fx:id="locationColumn" prefWidth="200.0" text="Location" />
-                <TableColumn fx:id="DepartmentColumn" prefWidth="189.0" text="Department" />
-
+                <TableColumn fx:id="DepartmentColumn" prefWidth="200.0" text="Department" />
             </columns>
         </TableView>
+
+        <!-- Add action buttons below the table -->
+        <VBox alignment="CENTER" prefHeight="108.0" prefWidth="789.0" spacing="10.0" style="-fx-padding: 20px 0;">
+            <Button fx:id="refreshButton" text="Refresh" />
+            <Button fx:id="exportButton" text="Export to CSV" />
+
+        </VBox>
 
     </VBox>
 

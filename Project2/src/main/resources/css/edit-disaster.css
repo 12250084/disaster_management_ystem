@@ -1,0 +1,105 @@
+/* Styling for the top header */
+.pane {
+    -fx-background-color: #2D75E8; /* Dark blue header */
+}
+
+/* General Label Styling */
+.label {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 16px;
+    -fx-text-fill: #333333; /* Dark grey labels */
+    -fx-padding: 5px 0;
+}
+
+/* Styling for the Title Label in Header */
+.label-header {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white; /* White text for the title */
+}
+
+/* Styling for ComboBoxes */
+.combo-box {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-background-color: #F5F5F5; /* Light grey background */
+    -fx-border-color: #CCCCCC; /* Grey border */
+    -fx-border-radius: 5px; /* Rounded corners */
+}
+
+/* Styling for TextArea */
+.text-area {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-background-color: #F5F5F5; /* Light grey background */
+    -fx-border-color: #CCCCCC; /* Grey border */
+    -fx-border-radius: 5px; /* Rounded corners */
+}
+
+/* Styling for Buttons */
+.button {
+    -fx-background-color: #00a3ff; /* Light blue for buttons */
+    -fx-text-fill: white; /* White text */
+    -fx-background-radius: 20px; /* Rounded corners */
+    -fx-padding: 10 20; /* Padding inside buttons */
+    -fx-font-size: 16px;
+    -fx-cursor: hand; /* Pointer on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0.3, 0, 2); /* Light shadow for buttons */
+}
+
+/* Hover effects for buttons */
+.button:hover {
+    -fx-background-color: #007bb5; /* Darker blue on hover */
+}
+
+/* Specific Styling for Delete Button */
+#deleteButton {
+    -fx-background-color: #dc3545; /* Red for delete button */
+}
+
+#deleteButton:hover {
+    -fx-background-color: #c82333; /* Darker red on hover */
+}
+
+/* Specific Styling for Update Button */
+#saveButton {
+    -fx-background-color: #28A745; /* Green for update button */
+}
+
+#saveButton:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+/* Specific Styling for Cancel Button */
+#cancelButton {
+    -fx-background-color: #ffc107; /* Amber for cancel button */
+}
+
+#cancelButton:hover {
+    -fx-background-color: #e0a800; /* Darker amber on hover */
+}
+
+/* Layout improvements */
+.anchor-pane {
+    -fx-padding: 20px; /* Padding around the content */
+}
+
+.combo-box, .text-area {
+    -fx-margin: 5px;
+}
+
+/* Improved spacing for the form layout */
+.anchor-pane > .children {
+    -fx-spacing: 15px; /* Space between form elements */
+}
+/* Image styling */
+.title-view {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0.5, 0, 0);
+    -fx-padding: 10px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10px;
+    -fx-font-size: 40px;
+    -fx-text-fill: white
+}

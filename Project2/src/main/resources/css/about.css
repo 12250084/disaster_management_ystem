@@ -1,0 +1,46 @@
+/* Styling for the header pane */
+.header-pane {
+    -fx-background-color: #2D75E8; /* Dark blue background for header */
+    -fx-padding: 20px;
+}
+
+/* Header label styling */
+.header-label {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 48px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white; /* White text for the title */
+}
+
+/* Welcome text styling */
+.welcome-text {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333; /* Dark grey text */
+    -fx-padding: 10px 0;
+}
+
+/* Subtext styling */
+.sub-text {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 18px;
+    -fx-text-fill: #666666; /* Medium grey text */
+    -fx-padding: 10px 0;
+}
+
+/* Back button styling */
+.back-button {
+    -fx-background-color: #00a3ff; /* Blue color for button */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-background-radius: 20px; /* Rounded corners */
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand; /* Cursor changes to pointer on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0.3, 0, 2); /* Shadow effect */
+}
+
+/* Hover effect for the Back button */
+.back-button:hover {
+    -fx-background-color: #007bb5; /* Darker blue on hover */
+}

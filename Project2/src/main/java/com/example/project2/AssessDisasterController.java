@@ -2,8 +2,11 @@ package com.example.project2;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +15,8 @@ import java.sql.SQLException;
 
 public class AssessDisasterController {
 
+    public AnchorPane headerPane;
+    public Button CloseButton;
     @FXML
     ComboBox<String> disasterTypeComboBox;
     @FXML
@@ -29,10 +34,24 @@ public class AssessDisasterController {
     Label disasterNo;
 
     private DatabaseConnection dbConnection;
-
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     @FXML
+
     void initialize() {
+        // Track mouse events for moving the window using the top pane
+        headerPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        headerPane.setOnMouseDragged(event -> {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
+
         dbConnection = new DatabaseConnection();
         loadDisasterTypes();
         loadLocations();
@@ -304,7 +323,11 @@ public class AssessDisasterController {
         return departmentId;
     }
 
-
+    @FXML
+    private void closeWindow() {
+        Stage stage = (Stage) CloseButton.getScene().getWindow();
+        stage.close();
+    }
 
     private void showAlert(AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);

@@ -1,0 +1,120 @@
+/* Styling for the top header */
+.anchor-pane-top {
+    -fx-background-color: #2D75E8; /* Dark blue header */
+}
+
+/* Styling for the "Report Disaster" text */
+#headerLabel {
+    -fx-font-family: 'Arial Rounded MT Bold';
+    -fx-font-size: 28px; /* Slightly smaller than "Log In" */
+    -fx-text-fill: white; /* White text */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.3, 0, 0); /* Soft shadow effect */
+    -fx-padding: 20px;
+}
+
+/* Form Label Styles */
+.label {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 16px;
+    -fx-text-fill: #333333; /* Dark grey labels */
+    -fx-padding: 5px 0; /* Slight padding for labels */
+}
+
+/* Text Field and ComboBox Styling */
+.text-field, .combo-box {
+    -fx-font-size: 14px;
+    -fx-padding: 8px;
+    -fx-background-color: #F5F5F5; /* Light grey background */
+    -fx-border-color: #CCCCCC; /* Grey border */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-background-radius: 5px;
+}
+
+/* Text Area Styling */
+.text-area {
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-background-color: #F5F5F5; /* Light grey background */
+    -fx-border-color: #CCCCCC; /* Grey border */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-background-radius: 5px;
+}
+
+/* Styling for buttons */
+.button {
+    -fx-background-color: #00a3ff; /* Light blue for buttons */
+    -fx-text-fill: white; /* White text */
+    -fx-background-radius: 20px; /* Rounded corners */
+    -fx-padding: 10 20; /* Padding inside buttons */
+    -fx-font-size: 16px; /* Larger font size */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0.3, 0, 2);
+}
+
+/* Hover effects for buttons */
+.button:hover {
+    -fx-background-color: #007bb5; /* Darker blue on hover */
+}
+
+/* Disabled ComboBox Styling */
+.combo-box:disabled {
+    -fx-background-color: #EEEEEE; /* Lighter grey when disabled */
+    -fx-opacity: 0.7;
+}
+
+/* Styling for the 'Submit' button */
+#submitButton {
+    -fx-background-color: #28A745; /* Green for submit button */
+}
+
+#submitButton:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+/* Styling for the 'Get Current Location' button */
+#currentLocationButton {
+    -fx-background-color: #FFC107; /* Amber color */
+}
+
+#currentLocationButton:hover {
+    -fx-background-color: #E0A800; /* Darker amber on hover */
+}
+
+/* Adjust the spacing and layout of the form */
+.anchor-pane-form {
+    -fx-padding: 20px; /* Padding around the form */
+    -fx-spacing: 10px; /* Spacing between form fields */
+}
+
+/* Custom hover effect for text areas and input fields */
+.text-field:hover, .text-area:hover, .combo-box:hover {
+    -fx-background-color: #E8F0FE; /* Light blue hover effect */
+    -fx-border-color: #007bb5; /* Blue border on hover */
+}
+
+/* Image styling */
+.image-view-login {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 15, 0.5, 0, 0);
+    -fx-padding: 10px;
+    -fx-border-color: transparent;
+    -fx-border-radius: 10px;
+}
+
+/* Custom styling for export button */
+#exportButton {
+    -fx-background-color: #28A745; /* Green color */
+    -fx-text-fill: white;
+}
+
+#exportButton:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+/* Custom styling for refresh button */
+#refreshButton {
+    -fx-background-color: #007bb5; /* Blue color */
+    -fx-text-fill: white;
+}
+
+#refreshButton:hover {
+    -fx-background-color: #005f8a; /* Darker blue on hover */
+}

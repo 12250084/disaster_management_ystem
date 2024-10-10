@@ -3,11 +3,13 @@ package com.example.project2;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -16,9 +18,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Objects;
 
+import org.mindrot.jbcrypt.BCrypt;
+
+
 
 public class LoginController {
 
+    public Button registerButton;
     @FXML
     private Button cancelButton;
     @FXML
@@ -32,6 +38,24 @@ public class LoginController {
     private TextField passwordTextField;
     @FXML
     private Label loginMessageLabel;
+    @FXML
+    private AnchorPane headerPane; // FXML ID for the top blue AnchorPane
+    private double xOffset = 0;
+    private double yOffset = 0;
+
+    public void initialize() {
+        // Track mouse events for moving the window using the top pane
+        headerPane.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        headerPane.setOnMouseDragged(event -> {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
+    }
 
 
     public  void setCancelButton (){
@@ -41,7 +65,7 @@ public class LoginController {
     }
 
     public  void OnCancelButton (){
-        dashboard();
+        //dashboard();
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
 
@@ -61,33 +85,37 @@ public class LoginController {
     }
 
     private void validationLogin() {
-
+        // Instantiate DatabaseConnection
         DatabaseConnection connectionNow = new DatabaseConnection();
         Connection connection = connectionNow.getConnection();
 
-        // Corrected SQL query with placeholders
-        String verifyLogin = "SELECT COUNT(1) FROM dbo.user WHERE username = ? AND password = ?";
+        // Retrieve schema name dynamically
+        String schemaName = connectionNow.getSchemaName(); // Get schema name
+
+        // Use the schema name in the SQL query
+        String verifyLogin = "SELECT password FROM `" + schemaName + "`.user WHERE username = ?";
 
         try {
-            // Prepare the SQL statement
+            // Prepare SQL query with the schema and placeholders
             PreparedStatement preparedStatement = connection.prepareStatement(verifyLogin);
-
-            // Set parameters for the placeholders
-            preparedStatement.setString(1, userNameTextField.getText().trim()); // First placeholder
-            preparedStatement.setString(2, passwordTextField.getText().trim()); // Second placeholder
+            preparedStatement.setString(1, userNameTextField.getText().trim());
 
             // Execute the query
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                if (resultSet.getInt(1) == 1) {
-                    loginMessageLabel.setText("Login successful!");
-                    //enableButtonsAfterLogin();
-                    dashboard();
+            if (resultSet.next()) {
+                // Get the stored hashed password from the database
+                String storedHashedPassword = resultSet.getString("password");
 
+                // Use BCrypt to check if the entered password matches the stored hash
+                if (BCrypt.checkpw(passwordTextField.getText().trim(), storedHashedPassword)) {
+                    loginMessageLabel.setText("Login successful!");
+                    dashboard();  // Navigate to the dashboard on successful login
                 } else {
                     loginMessageLabel.setText("Invalid username or password.");
                 }
+            } else {
+                loginMessageLabel.setText("Invalid username or password.");
             }
 
         } catch (Exception e) {
@@ -106,11 +134,13 @@ public class LoginController {
     public void registerForm(){
 
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("register.fxml")));
-            Stage stage = new Stage();
-            stage.initStyle(StageStyle.DECORATED);
-            stage.setScene(new Scene(root,829,695));
-            stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("register.fxml"));
+            Parent loginRoot = loader.load();
+            Stage loginStage = new Stage();
+            //loginStage.setTitle("Login");
+            loginStage.initStyle(StageStyle.UNDECORATED);
+            loginStage.setScene(new Scene(loginRoot));
+            loginStage.show();
             setCancelButton();
 
 
@@ -126,7 +156,7 @@ public class LoginController {
         try {
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
             Stage stage = new Stage();
-            stage.initStyle(StageStyle.DECORATED);
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root,829,695));
             stage.show();
             setCancelButton();
