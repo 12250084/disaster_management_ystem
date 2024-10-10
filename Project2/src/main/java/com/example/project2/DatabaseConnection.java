@@ -6,7 +6,6 @@ public class DatabaseConnection {
     private final String schemaName = "dbo8";  // Schema name
     public Connection databaseLink;
 
-
     public Connection getConnection() {
 
 
