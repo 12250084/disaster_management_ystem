@@ -18,6 +18,8 @@ public class Disaster {
         this.department = department;
     }
 
+
+
     // Getters and Setters
     public int getId() {
         return id;
